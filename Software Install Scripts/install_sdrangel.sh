@@ -17,7 +17,7 @@ sudo apt-get install -y libopencv-dev libxml2-dev libavcodec-dev libavformat-dev
                         graphviz bison flex ffmpeg libopus-dev libfaad-dev \
                         libqt5webengine5 qtwebengine5-dev qtbase5-private-dev \
                         libhidapi-dev libsamplerate0-dev libqt5gamepad5-dev \
-                        libxtrx-dev libqt5websockets5-dev
+                        libxtrx-dev libqt5websockets5-dev libqt5charts5-dev \
 
 # Text to speech (optional)
 sudo apt install -y espeak libespeak1 speech-dispatcher-espeak libqt5texttospeech5 \
@@ -65,7 +65,7 @@ cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=/opt/install/libdab ..
 make -j$(nproc) install
 
 # Install MBElib
-cd ~/
+cd ~/SDRangel
 git clone https://github.com/szechyjs/mbelib.git
 cd mbelib
 mkdir build
@@ -97,7 +97,7 @@ cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=/opt/install/dsdcc -DUSE_MBELIB=ON \
 make -j$(nproc) install
 
 # Install Codec2/FreeDV
-cd ~/
+cd ~/SDRangel
 git clone https://github.com/drowe67/codec2.git
 cd codec2
 mkdir build
@@ -107,8 +107,6 @@ make -j$(nproc)
 sudo make install
 sudo install -m 0755 src/freedv_rx /usr/local/bin
 sudo install -m 0755 src/freedv_tx /usr/local/bin
-cd ../..
-sudo ldconfig
 
 # Install SGP4
 cd ~/SDRangel
@@ -148,15 +146,10 @@ cmake -Wno-dev -DDEBUG_OUTPUT=ON -DRX_SAMPLE_24BIT=ON -DCMAKE_BUILD_TYPE=RelWith
       -DSERIALDV_DIR=/opt/install/serialdv \
       -DSGP4_DIR=/opt/install/sgp4 \
       -DLIBSIGMF_DIR=/opt/install/libsigmf \
-      -DDAB_DIR=/opt/install/libdab \
-      -DCMAKE_INSTALL_PREFIX=/opt/install/sdrangel ..
-make -j$(nproc) install
+      -DLIBDAB_DIR=/opt/install/libdab ..
+make -j$(nproc)
+sudo make install
 
-print_info "Generating FFTW wisdom file..."
-cd ~/.config/
-mkdir -p f4exb
-cd f4exb
-fftwf-wisdom -n -o fftw-wisdom 128 256 512 1024 2048 4096 8192 16384 32768
+print_info "SDRangel installation completed!"
 
-print_info "Installation and setup of SDRangel completed!"
 
