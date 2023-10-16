@@ -27,13 +27,13 @@ pulseaudio -k
 pulseaudio --start
 print_info "Virtual audio sink 'Virtual_Sink' has been configured successfully."
 
-# Download WSJT-X .deb package
-print_info "Downloading WSJT-X package..."
-wget https://wsjt.sourceforge.io/downloads/wsjtx_2.6.1_arm64.deb
+# Download WSJT-X Improved .deb package from SourceForge
+print_info "Downloading WSJT-X Improved package..."
+wget -O wsjtx-2.7.1-improved-arm64.deb "https://sourceforge.net/projects/wsjt-x-improved/files/WSJT-X_v2.7.1/Raspberry%20Pi/wsjtx-2.7.1-devel_improved_AL_PLUS_230914-FD02_Rpi_arm64.deb/download"
 
-# Install WSJT-X from the .deb package
-print_info "Installing WSJT-X..."
-sudo apt install -y ./wsjtx_2.6.1_arm64.deb
+# Install WSJT-X Improved from the .deb package
+print_info "Installing WSJT-X Improved..."
+sudo apt install -y ./wsjtx-2.7.1-improved-arm64.deb
 
-print_info "Installation and setup of WSJT-X completed!"
+print_info "Installation and setup of WSJT-X Improved completed!"
 
