@@ -8,43 +8,32 @@ print_info() {
     echo -e "\e[34mINFO: $1\e[0m"
 }
 
-# Install necessary packages
-print_info "Setting up virtual audio sink..."
+# Update repositories and Install necessary packages
+print_info "Updating repositories..."
 sudo apt update
-sudo apt install -y pavucontrol
+
+print_info "Installing pavucontrol and PulseAudio..."
+sudo apt install -y pavucontrol pulseaudio
+
+# Ensure PulseAudio is running
+pulseaudio --start
 
 # Virtual audio sink
+print_info "Setting up virtual audio sink..."
 sudo bash -c 'echo "load-module module-null-sink sink_name=Virtual_Sink sink_properties=device.description=Virtual_Sink" >> /etc/pulse/default.pa'
 
-# Restart PulseAudio
+# Restart PulseAudio for changes to take effect
 pulseaudio -k
+pulseaudio --start
 print_info "Virtual audio sink 'Virtual_Sink' has been configured successfully."
 
-# Install dependencies for WSJT-X
-print_info "Installing dependencies for WSJT-X..."
-sudo apt-get install -y g++ cmake libfftw3-dev \
-                        libboost-all-dev libgsl-dev \
-                        libqt5serialport5-dev \
-                        asciidoctor python3-pygments \
-                        libusb-1.0-0-dev
+# Download WSJT-X .deb package
+print_info "Downloading WSJT-X package..."
+wget https://wsjt.sourceforge.io/downloads/wsjtx_2.6.1_arm64.deb
 
-# Clone the WSJT-X repository
-print_info "Cloning WSJT-X repository from GitHub..."
-git clone https://github.com/wsjt-x/wsjt.git
-
-# Navigate to the cloned directory and make a build directory
-cd wsjt
-mkdir build
-cd build
-
-# Configure and compile WSJT-X
-print_info "Configuring and compiling WSJT-X..."
-cmake ..
-make -j$(nproc)
-
-# Install the software
+# Install WSJT-X from the .deb package
 print_info "Installing WSJT-X..."
-sudo make install
+sudo apt install -y ./wsjtx_2.6.1_arm64.deb
 
 print_info "Installation and setup of WSJT-X completed!"
 
