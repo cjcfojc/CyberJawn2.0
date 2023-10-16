@@ -4,4 +4,4 @@ Collection of installation scripts centered around the install and configuration
 
 THESE ARE ALL IN ALPHA.  THEY HAVE ONLY BEEN TESTED ON A RASPBERRY PI 4B 8GB WITH DIETPI ARMv8 AND LXDE.
 
-A more comprehensive readme will follow in the future.
+A more comprehensive readme will follow in the future.  A "master install" script will come in the future to call each of these install scripts individually.
