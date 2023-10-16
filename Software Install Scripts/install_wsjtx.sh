@@ -46,20 +46,5 @@ make -j$(nproc)
 print_info "Installing WSJT-X..."
 sudo make install
 
-# Create Desktop Entry for WSJT-X
-print_info "Creating Desktop Icon for WSJT-X..."
-cat > ~/Desktop/WSJTX.desktop <<EOL
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=WSJT-X
-Exec=wsjtx
-Icon=path_to_icon.png
-Comment=Run WSJT-X
-Terminal=false
-Categories=HamRadio;Radio;
-EOL
-
-chmod +x ~/Desktop/WSJTX.desktop
 print_info "Installation and setup of WSJT-X completed!"
 
