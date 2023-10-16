@@ -17,7 +17,7 @@ sudo apt-get install -y libopencv-dev libxml2-dev libavcodec-dev libavformat-dev
                         graphviz bison flex ffmpeg libopus-dev libfaad-dev \
                         libqt5webengine5 qtwebengine5-dev qtbase5-private-dev \
                         libhidapi-dev libsamplerate0-dev libqt5gamepad5-dev \
-                        libxtrx-dev
+                        libxtrx-dev libqt5websockets5-dev
 
 # Text to speech (optional)
 sudo apt install -y espeak libespeak1 speech-dispatcher-espeak libqt5texttospeech5 \
