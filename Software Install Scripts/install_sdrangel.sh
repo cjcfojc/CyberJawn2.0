@@ -35,29 +35,6 @@ sudo chown dietpi:dietpi /opt/install
 mkdir -p ~/SDRangel
 cd ~/SDRangel
 
-# Install SoapySDR
-print_info "Installing SoapySDR..."
-git clone https://github.com/pothosware/SoapySDR.git
-cd SoapySDR
-mkdir build
-cd build
-cmake ..
-make -j$(nproc)
-sudo make install
-sudo ldconfig
-
-# Install SoapySDR module for RTL-SDR
-print_info "Installing SoapySDR module for RTL-SDR..."
-cd ~/SDRangel
-git clone https://github.com/pothosware/SoapyRTLSDR.git
-cd SoapyRTLSDR
-mkdir build
-cd build
-cmake ..
-make -j$(nproc)
-sudo make install
-sudo ldconfig
-
 # Install APTdec
 git clone https://github.com/srcejon/aptdec.git
 cd aptdec
@@ -188,7 +165,7 @@ echo "[Desktop Entry]
 Version=1.0
 Name=SDRAngel
 Comment=Start SDRAngel Software Defined Radio
-Exec=/opt/install/sdrangel/bin/sdrangel --soapy --fftwf-wisdom ~/.config/f4exb/fftw-wisdom
+Exec=/home/dietpi/SDRangel/sdrangel/build/sdrangel --soapy --fftwf-wisdom ~/.config/f4exb/fftw-wisdom
 Icon=/home/dietpi/Documents/Desktop Icons/sdrangel.png
 Terminal=false
 Type=Application
@@ -197,6 +174,5 @@ Categories=Utility;Application;" > ~/Desktop/SDRAngel.desktop
 # Make the .desktop file executable
 chmod +x ~/Desktop/SDRAngel.desktop
 
-print_info "Desktop shortcut created!"
-print_info "To run SDRangel, type /opt/install/sdrangel/bin/sdrangel --soapy --fftwf-wisdom ~/.config/f4exb/fftw-wisdom in the terminal and press enter, or double-click the SDRangel icon on the desktop."
-
+print_info "Desktop shortcut created."
+print_info "To run SDRangel, type /home/dietpi/SDRangel/sdrangel/build/sdrangel --soapy --fftwf-wisdom ~/.config/f4exb/fftw-wisdom in the terminal and press enter, or double-click the SDRangel icon on the desktop."
