@@ -197,6 +197,6 @@ Categories=Utility;Application;" > ~/Desktop/SDRAngel.desktop
 # Make the .desktop file executable
 chmod +x ~/Desktop/SDRAngel.desktop
 
-print_info "Desktop shortcut created!"
+print_info "Desktop shortcut created."
 print_info "To run SDRangel, type /opt/install/sdrangel/bin/sdrangel --soapy --fftwf-wisdom ~/.config/f4exb/fftw-wisdom in the terminal and press enter, or double-click the SDRangel icon on the desktop."
 
