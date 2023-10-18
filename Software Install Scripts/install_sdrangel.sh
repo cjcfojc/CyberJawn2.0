@@ -165,11 +165,11 @@ echo "[Desktop Entry]
 Version=1.0
 Name=SDRAngel
 Comment=Start SDRAngel Software Defined Radio
-Exec=/home/dietpi/SDRangel/sdrangel/build/sdrangel --soapy --fftwf-wisdom ~/.config/f4exb/fftw-wisdom
+Exec=/home/dietpi/SDRangel/sdrangel/build/sdrangel --soapy --fftwf-wisdom /home/dietpi/.config/f4exb/fftw-wisdom
 Icon=/home/dietpi/Documents/Desktop Icons/sdrangel.png
 Terminal=false
 Type=Application
-Categories=Utility;Application;" > ~/Desktop/SDRAngel.desktop
+Categories=SIGINT;" > ~/Desktop/SDRAngel.desktop
 
 # Make the .desktop file executable
 chmod +x ~/Desktop/SDRAngel.desktop
