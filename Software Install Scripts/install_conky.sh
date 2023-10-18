@@ -1,32 +1,28 @@
 #!/bin/bash
 
-# Install required dependencies for Conky
-sudo apt-get update
-sudo apt-get install -y conky conky-all curl
+# Install Conky
+sudo apt update
+sudo apt install -y conky-all
 
-# Install Conky Manager 2 from TeeJee's PPA
-sudo add-apt-repository -y ppa:teejee2008/ppa
-sudo apt-get update
-sudo apt-get install -y conky-manager
+# Fetch and replace the content of the default .conkyrc with the content from GitHub
+curl -o /home/dietpi/.conkyrc https://raw.githubusercontent.com/cjcfojc/CyberJawn2.0/main/Conky/cj20conky
 
-# Create Conky directory and download the Conky configuration file
-mkdir -p /home/dietpi/Documents/Conky
-curl -o /home/dietpi/Documents/Conky/cj20conky https://raw.githubusercontent.com/cjcfojc/CyberJawn2.0/main/Conky/cj20conky
+# Create autostart directory if it doesn't exist
+mkdir -p /home/dietpi/.config/autostart
 
-# Adjust permissions
-chmod +x /home/dietpi/Documents/Conky/cj20conky
-
-# Create .desktop file for autostart
-mkdir -p ~/.config/autostart/
-echo "[Desktop Entry]
+# Create Conky desktop entry for autostart
+cat > /home/dietpi/.config/autostart/conky.desktop <<EOL
+[Desktop Entry]
 Type=Application
+Exec=sh -c 'sleep 20; conky'
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=Conky
 Name=Conky
-Exec=sh -c 'sleep 20s; conky -c /home/dietpi/Documents/Conky/cj20conky'
-Comment=Start Conky after a delay
-NoDisplay=true" > ~/.config/autostart/conky.desktop
+Comment[en_US]=
+Comment=
+EOL
 
-# Ensure permissions are set correctly
-chmod +x ~/.config/autostart/conky.desktop
-
-echo "Conky and Conky Manager 2 installation complete. Conky will start automatically after a 20-second delay on boot."
+echo "Conky installation complete. Conky will start automatically after a 20-second delay on boot."
 
