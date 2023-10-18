@@ -1,0 +1,114 @@
+######################
+# - Conky settings - #
+######################
+update_interval 1
+total_run_times 0
+net_avg_samples 1
+cpu_avg_samples 1
+
+imlib_cache_size 0
+double_buffer yes
+no_buffers yes
+
+#####################
+# - Text settings - #
+#####################
+use_xft yes
+xftfont Fira Book:normal:size=10
+override_utf8_locale yes
+text_buffer_size 2048
+
+#############################
+# - Window specifications - #
+#############################
+own_window yes
+own_window_type normal
+own_window_transparent no
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_argb_visual yes
+own_window_argb_value 102
+own_window_colour 000000
+minimum_size 490 300
+
+alignment middle_right
+gap_x 0
+gap_y 77
+
+#########################
+# - Graphics settings - #
+#########################
+draw_shades no
+
+default_color 8cac6a
+default_shade_color 000000
+color1 8fce00
+color2 fc8c3b
+color3 f9e30f
+color4 76332F
+color5 161925
+color6 3bf4bb
+
+TEXT
+#--------------------------------------------------------------------------------------------------------------------------------
+#                                                   System
+#--------------------------------------------------------------------------------------------------------------------------------
+${color4} S Y S T E M» $hr ${color}
+${goto 10}    |-- OS:${color2}${alignr 10}${execi 86400 cat `ls -atr /etc/*-release | tail -2` | grep "PRETTY_NAME" | cut -d= -f2 |  sed 's/"//g' | cut -c 1-15}${color}
+${goto 10}    |-- Codename:${color2}${alignr 10}${execi 65000 lsb_release -cs | awk '{print $1}'}${color}
+${goto 10}    |-- Host:${color2}${alignr 10}$nodename${color}
+${goto 10}${color}    |-- Kernel:${color2}${alignr 10}${kernel}${color}
+${goto 10}    |-- Uptime:${color6}${alignr 10}$uptime${color}
+${goto 10}    |-- File System: ${color2}${alignr 10}${fs_type}
+#--------------------------------------------------------------------------------------------------------------------------------
+#                                                   CPU
+#-------------------------------------------------------------------------------------------------------------------------------
+${color4} C P U» $hr${color}
+${goto 10}    |-- CPU:${color2}${alignr 10}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}${color}
+${goto 10}    |-- Active Governor: ${color6}${alignr 10}${execi 1 cut -b 1-20 /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor}${color}
+${goto 10}    |-- Clock Rate:${color6}${alignr 10}${freq_g 1}GHz${color}
+${color}${goto 10}    |-- Core 1: ${color6}${freq_g 1}GHz ${alignr 10}${cpu cpu0}% ${color1}${cpugraph cpu0 12,120 fc8c3b c6396b -t}
+${color}${goto 10}    |-- Core 2: ${color6}${freq_g 2}GHz ${alignr 10}${cpu cpu1}% ${color1}${cpugraph cpu1 12,120 fc8c3b c6396b -t}
+${color}${goto 10}    |-- Core 3: ${color6}${freq_g 3}GHz ${alignr 10}${cpu cpu2}% ${color1}${cpugraph cpu2 12,120 fc8c3b c6396b -t}
+${color}${goto 10}    |-- Core 4: ${color6}${freq_g 4}GHz ${alignr 10}${cpu cpu3}% ${color1}${cpugraph cpu3 12,120 fc8c3b c6396b -t}
+#-------------------------------------------------------------------------------------------------------------------------------
+#                                                   Cores
+#-------------------------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------------------------
+#                                                   GPU
+#-------------------------------------------------------------------------------------------------------------------------------
+#${color4}${font ConkySymbols:size=14}f${font} G P U» $hr${color}
+#${color}${goto 10}    |-- GPU2: ${color6}${alignr 10}AMD RX 580 8GB${color}
+#${color}${goto 10}    |-- Pwr: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep "PPT" | cut -b 14-19} W
+#${color}${goto 10}    |-- Max Pwr: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep "cap" | cut -b 31-35} W
+#${color}${goto 10}    |-- GPU Load: ${color6}${alignr 10}${execi 5 radeontop -d- -l1 | grep -o 'gpu [0-9]\{1,3\}' | cut -c 5-7 }%${color1}${execigraph 1 "radeontop -d- -l1 | grep -o 'vram [0-9]\{1,3\}' | cut -c 5-7"  12,120 fc8c3b c6396b -t}
+#${color}${goto 10}    |-- GPU VRAM: ${color6}${alignr 10}${execi 5 radeontop -d- -l1 | grep -o 'vram [0-9]\{1,3\}' | cut -c 5-7 }%${color1}${execigraph 1 "radeontop -d- -l1 | grep -o 'gpu [0-9]\{1,3\}' | cut -c 5-7" 12,120 fc8c3b c6396b -t }
+#${goto 10}${color}    |-- Current Temp: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep 'edge' | cut -c 16-22}
+#${goto 10}${color}    |-- Fan Speed: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep 'fan1' | cut -c 14-21}
+#-------------------------------------------------------------------------------------------------------------------------------
+#                                                   Memory
+#-------------------------------------------------------------------------------------------------------------------------------
+${color4} M E M O R Y» $hr${color}
+${goto 10}    |-- RAM: ${color6}$mem${color} / ${color2}$memmax ${color6}${alignr 10}$memperc% ${color1}${membar 12,120}${color}
+${goto 10}    |-- SWAP: ${color6}$swap${color} / ${color2}$swapmax ${color6}${alignr 10}$swapperc% ${color1}${swapbar 12,120}${color}
+#-------------------------------------------------------------------------------------------------------------------------------
+#                                                   Storage
+#-------------------------------------------------------------------------------------------------------------------------------
+${color4} S T O R A G E» $hr${color}
+${color}${goto 10}    |-- ${color1}ROOT:  ${color6}${fs_used /}${color} / ${color2}${fs_size /} ${color6}${alignr 10}${fs_used_perc /}% ${color1}${fs_bar 8,120 /}${color}
+${color}${goto 10}    |-- ${color1}HOME:  ${color6}${fs_used /home}${color} / ${color2}${fs_size /home} ${color6}${alignr 10}${fs_used_perc /home}% ${color1}${fs_bar 8,120 /home}${color}
+${color}${goto 10}    |-- ${color1}PI_REPO:  ${color6}${fs_used /media/carmen/pi_repo}${color} / ${color2}${fs_size /media/carmen/pi_repo} ${color6}${alignr 10}${fs_used_perc /media/carmen/pi_repo}% ${color1}${fs_bar 8,120 /media/carmen/pi_repo}${color}
+${color}${goto 10}    |-- ${color1}PI_REPO 2:  ${color6}${fs_used /media/carmen/pi_repo_2}${color} / ${color2}${fs_size /media/carmen/pi_repo_2} ${color6}${alignr 10}${fs_used_perc /media/carmen/pi_repo_2}% ${color1}${fs_bar 8,120 /media/carmen/pi_repo_2}${color}
+${goto 10}    |-- Disk I/O Read:  ${color6}${alignr 10}${diskio_read} ${color1}${diskiograph_read 10,120 ADFF2F 32CD32 750}${color}
+${goto 10}    |-- Disk I/O Write: ${color6}${alignr 10}${diskio_write}${color} ${color1}${diskiograph_write 10,120 FF0000 8B0000 750}${color}
+#-------------------------------------------------------------------------------------------------------------------------------
+#                                                   Processes
+#-------------------------------------------------------------------------------------------------------------------------------
+${color4} P R O C E S S E S» $hr${color}
+${goto 10}${color}    NAME${goto 175}PROCESS ID${goto 285}CPU USAGE%${goto 410}MEMORY USAGE${color}${font}
+${color}${goto 10}    |-- ${color1}${top name 1}${color6}${font}${goto 175}  ${top pid 1}${goto 285}    ${top cpu 1}${goto 410}      ${top mem_res 1}
+${color}${goto 10}    |-- ${color1}${top name 2}${color6}${font}${goto 175}  ${top pid 2}${goto 285}    ${top cpu 2}${goto 410}      ${top mem_res 2}
+${color}${goto 10}    |-- ${color1}${top name 3}${color6}${font}${goto 175}  ${top pid 3}${goto 285}    ${top cpu 3}${goto 410}      ${top mem_res 3}
+${goto 10}${color}    |-- Processes: ${color6}${execi 1000 ps aux | wc -l}
+${goto 10}${color}    |-- Running: ${color6}$running_processes
+${color4}${goto 10}${stippled_hr}${color}
+#-------------------------------------------------------------------------------------------------------------------------------
