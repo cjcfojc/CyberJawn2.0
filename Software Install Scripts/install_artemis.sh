@@ -18,13 +18,12 @@ echo "Handling QT5 dependencies..."
 sudo apt install -y qtbase5-dev qtdeclarative5-dev
 
 echo "Cloning the Artemis repository..."
-# Clone the Artemis repository
 git clone https://github.com/AresValley/Artemis.git
+
 cd Artemis
 
 echo "Installing Python packages..."
-# Install Python packages
-sudo pip3 install --break-system-packages -r requirements.txt
+pip3 install --break-system-packages -r requirements.txt
 
 echo "Compiling Artemis..."
 # Compilation
