@@ -2,13 +2,20 @@
 
 # Script to install Artemis on DietPi ARMv8 for RPi4b from source.
 
+# Exit the script if any command fails
+set -e
+
 echo "Updating the system..."
 # Update the system
 sudo apt update && sudo apt upgrade -y
 
 echo "Installing required packages..."
-# Install required packages
-sudo apt install -y qt5-default libpcap-dev libgeoip-dev libssl-dev git python3-pip python3-dev
+# Install required packages without qt5-default first
+sudo apt install -y libpcap-dev libgeoip-dev libssl-dev git python3-pip python3-dev
+
+# Handle qt5 dependencies separately
+echo "Handling QT5 dependencies..."
+sudo apt install -y qtbase5-dev qtdeclarative5-dev
 
 echo "Cloning the Artemis repository..."
 # Clone the Artemis repository
@@ -17,7 +24,7 @@ cd Artemis
 
 echo "Installing Python packages..."
 # Install Python packages
-sudo pip3 install -r requirements.txt
+sudo pip3 install --break-system-packages -r requirements.txt
 
 echo "Compiling Artemis..."
 # Compilation
