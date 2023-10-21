@@ -1,47 +1,55 @@
 #!/bin/bash
 
-# Script to install Artemis on DietPi ARMv8 for RPi4b from source.
+# Define error handling function
+function handle_error {
+    echo "Error occurred on line $1."
+    exit 1
+}
 
-# Exit the script if any command fails
-set -e
+# Set trap for error handling
+trap 'handle_error $LINENO' ERR
 
-echo "Updating the system..."
-# Update the system
-sudo apt update && sudo apt upgrade -y
+# Update and upgrade the system
+sudo apt-get update && sudo apt-get upgrade -y
 
-echo "Installing required packages..."
-# Install required packages without qt5-default first
-sudo apt install -y libpcap-dev libgeoip-dev libssl-dev git python3-pip python3-dev
+# Installing essential tools
+sudo apt-get install -y git
 
-# Handle qt5 dependencies separately
-echo "Handling QT5 dependencies..."
-sudo apt install -y qtbase5-dev qtdeclarative5-dev
-
-echo "Cloning the Artemis repository..."
+# Clone Artemis repository
 git clone https://github.com/AresValley/Artemis.git
 
+# Change to the Artemis directory
 cd Artemis
 
-echo "Installing Python packages..."
+# Change to the spec_files/Linux directory
+cd spec_files/Linux
+
+# Installing dependencies and setting up the environment
+sudo apt-get update
+sudo apt-get install -y build-essential python3 python3-pip python3-dev python3-venv python3-setuptools zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git libopenjp2-7-dev libssl-dev libharfbuzz0b libfreetype6 libgstreamer-plugins-base0.10-0 libgstreamer-plugins-good0.10-0 libpulse0
+sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-3.0 gir1.2-webkit2-4.0
+sudo apt-get install -y python3-tk
+
+# Setting alias for Python commands
+echo "alias python3=python" >> ~/.bash_aliases
+echo "alias pip3=pip" >> ~/.bash_aliases
+echo "alias python-config=python3-config" >> ~/.bash_aliases
+
+# Reload the bash configuration to apply aliases
+source ~/.bashrc
+
+# Install PyInstaller
+pip3 install pyinstaller
+
+# Install Artemis requirements
 pip3 install --break-system-packages -r requirements/requirements.txt
 
-echo "Compiling Artemis..."
-# Compilation
-qmake Artemis.pro
-make
 
-echo "Moving the compiled binary to the appropriate directory..."
-# Move the compiled binary to the appropriate directory
-sudo mkdir -p /usr/local/Artemis
-sudo mv Artemis /usr/local/Artemis/
-sudo ln -s /usr/local/Artemis/Artemis /usr/local/bin/Artemis
+# Build with PyInstaller
+pyinstaller --onefile Artemis_onedir.spec
 
-echo "Installing additional data..."
-# Installing additional data
-sudo mkdir -p /usr/local/share/Artemis/
-sudo cp -r languages/ /usr/local/share/Artemis/
-sudo cp -r sounds/ /usr/local/share/Artemis/
+# Display success message
+echo "Artemis installation and setup completed successfully."
 
-# Finishing up
-echo "Artemis installation is complete. You can run it by typing 'Artemis' in the terminal."
+exit 0
 
