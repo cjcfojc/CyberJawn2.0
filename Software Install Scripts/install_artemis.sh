@@ -23,7 +23,7 @@ git clone https://github.com/AresValley/Artemis.git
 cd Artemis
 
 echo "Installing Python packages..."
-pip3 install --break-system-packages -r requirements.txt
+pip3 install --break-system-packages -r requirements/requirements.txt
 
 echo "Compiling Artemis..."
 # Compilation
