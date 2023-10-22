@@ -26,9 +26,6 @@ EOL
 
 # Setup picom configuration
 mkdir -p /home/dietpi/.config/picom
-if [ ! -f /home/dietpi/.config/picom/picom.conf ]; then
-    cp /etc/xdg/picom.conf /home/dietpi/.config/picom/picom.conf
-fi
 
 # Ensure picom starts every time you start LXDE
 mkdir -p /home/dietpi/.config/lxsession/LXDE

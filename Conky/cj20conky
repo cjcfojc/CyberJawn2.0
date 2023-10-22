@@ -26,13 +26,27 @@ own_window_type normal
 own_window_transparent no
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 own_window_argb_visual yes
-own_window_argb_value 102
+own_window_argb_value 175
 own_window_colour 000000
-minimum_size 490 300
+minimum_size 550 300
 
 alignment middle_right
-gap_x 0
-gap_y 77
+gap_x 5
+gap_y -0
+
+#########################
+# - Graphics settings - #
+#########################
+draw_shades no
+
+default_color 8cac6a
+default_shade_color 000000
+color1 8fce00
+color2 fc8c3b
+color3 f9e30f
+color4 76332F
+color5 161925
+color6 3bf4bb
 
 #########################
 # - Graphics settings - #
@@ -74,17 +88,6 @@ ${color}${goto 10}    |-- Core 4: ${color6}${freq_g 4}GHz ${alignr 10}${cpu cpu3
 #                                                   Cores
 #-------------------------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------------------------
-#                                                   GPU
-#-------------------------------------------------------------------------------------------------------------------------------
-#${color4}${font ConkySymbols:size=14}f${font} G P U» $hr${color}
-#${color}${goto 10}    |-- GPU2: ${color6}${alignr 10}AMD RX 580 8GB${color}
-#${color}${goto 10}    |-- Pwr: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep "PPT" | cut -b 14-19} W
-#${color}${goto 10}    |-- Max Pwr: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep "cap" | cut -b 31-35} W
-#${color}${goto 10}    |-- GPU Load: ${color6}${alignr 10}${execi 5 radeontop -d- -l1 | grep -o 'gpu [0-9]\{1,3\}' | cut -c 5-7 }%${color1}${execigraph 1 "radeontop -d- -l1 | grep -o 'vram [0-9]\{1,3\}' | cut -c 5-7"  12,120 fc8c3b c6396b -t}
-#${color}${goto 10}    |-- GPU VRAM: ${color6}${alignr 10}${execi 5 radeontop -d- -l1 | grep -o 'vram [0-9]\{1,3\}' | cut -c 5-7 }%${color1}${execigraph 1 "radeontop -d- -l1 | grep -o 'gpu [0-9]\{1,3\}' | cut -c 5-7" 12,120 fc8c3b c6396b -t }
-#${goto 10}${color}    |-- Current Temp: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep 'edge' | cut -c 16-22}
-#${goto 10}${color}    |-- Fan Speed: ${color6}${alignr 10}${execi 1 sensors amdgpu-pci-2f00 | grep 'fan1' | cut -c 14-21}
-#-------------------------------------------------------------------------------------------------------------------------------
 #                                                   Memory
 #-------------------------------------------------------------------------------------------------------------------------------
 ${color4} M E M O R Y» $hr${color}
@@ -96,8 +99,6 @@ ${goto 10}    |-- SWAP: ${color6}$swap${color} / ${color2}$swapmax ${color6}${al
 ${color4} S T O R A G E» $hr${color}
 ${color}${goto 10}    |-- ${color1}ROOT:  ${color6}${fs_used /}${color} / ${color2}${fs_size /} ${color6}${alignr 10}${fs_used_perc /}% ${color1}${fs_bar 8,120 /}${color}
 ${color}${goto 10}    |-- ${color1}HOME:  ${color6}${fs_used /home}${color} / ${color2}${fs_size /home} ${color6}${alignr 10}${fs_used_perc /home}% ${color1}${fs_bar 8,120 /home}${color}
-${color}${goto 10}    |-- ${color1}PI_REPO:  ${color6}${fs_used /media/carmen/pi_repo}${color} / ${color2}${fs_size /media/carmen/pi_repo} ${color6}${alignr 10}${fs_used_perc /media/carmen/pi_repo}% ${color1}${fs_bar 8,120 /media/carmen/pi_repo}${color}
-${color}${goto 10}    |-- ${color1}PI_REPO 2:  ${color6}${fs_used /media/carmen/pi_repo_2}${color} / ${color2}${fs_size /media/carmen/pi_repo_2} ${color6}${alignr 10}${fs_used_perc /media/carmen/pi_repo_2}% ${color1}${fs_bar 8,120 /media/carmen/pi_repo_2}${color}
 ${goto 10}    |-- Disk I/O Read:  ${color6}${alignr 10}${diskio_read} ${color1}${diskiograph_read 10,120 ADFF2F 32CD32 750}${color}
 ${goto 10}    |-- Disk I/O Write: ${color6}${alignr 10}${diskio_write}${color} ${color1}${diskiograph_write 10,120 FF0000 8B0000 750}${color}
 #-------------------------------------------------------------------------------------------------------------------------------
