@@ -8,17 +8,31 @@ print_info() {
     echo -e "\e[34mINFO: $1\e[0m"
 }
 
+# Check if a package is installed
+check_package() {
+    dpkg -s "$1" &> /dev/null
+    if [ $? -ne 0 ]; then
+        echo "false"
+    else
+        echo "true"
+    fi
+}
+
 # Update and upgrade the system
 print_info "Updating and upgrading the system..."
 sudo apt update && sudo apt upgrade -y
 
-# Install Python and PIP
-print_info "Installing Python and PIP..."
-sudo apt install -y python3 python3-pip
-
-# Install Git
-print_info "Installing Git..."
-sudo apt install -y git
+# Check for Python, PIP, and Git
+print_info "Checking for required packages..."
+REQUIRED_PKGS=("python3" "python3-pip" "git")
+for pkg in "${REQUIRED_PKGS[@]}"; do
+    if [ $(check_package "$pkg") = "false" ]; then
+        print_info "Installing $pkg..."
+        sudo apt install -y "$pkg"
+    else
+        print_info "$pkg is already installed."
+    fi
+done
 
 # Install Meshtastic Python CLI
 print_info "Installing Meshtastic Python CLI..."
@@ -30,21 +44,25 @@ sudo usermod -a -G dialout $USER
 
 # Clone Meshtastic repository (optional, if you need to work with the source code)
 print_info "Cloning Meshtastic repository..."
-git clone https://github.com/meshtastic/Meshtastic-python.git
+if [ ! -d "Meshtastic-python" ]; then
+    git clone https://github.com/meshtastic/Meshtastic-python.git
+else
+    print_info "Meshtastic-python repository already cloned."
+fi
 
-# Navigate into the repository directory
+# Navigate into the repository directory and install dependencies
 cd Meshtastic-python
-
-# Install Meshtastic-python dependencies
 print_info "Installing Meshtastic-python dependencies..."
 pip3 install -r requirements.txt --break-system-packages
 
-# Add local bin to PATH if it's not already there
-if ! grep -q '^\s*export PATH="\$HOME/.local/bin:\$PATH"' "$HOME/.bashrc"; then
-    print_info "Adding $HOME/.local/bin to PATH in .bashrc..."
-    echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+# Check if PATH already contains .local/bin
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    print_info "Adding /home/dietpi/.local/bin to PATH in .bashrc..."
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+    source ~/.bashrc
+else
+    print_info "/home/dietpi/.local/bin is already in PATH."
 fi
 
-# Reboot (optional, but recommended due to group changes)
-print_info "Installation completed. It's recommended to reboot the system now."
+print_info "Installation and setup completed!"
 
